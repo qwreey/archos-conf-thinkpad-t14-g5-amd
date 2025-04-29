@@ -1,0 +1,2 @@
+ACTION=="add", SUBSYSTEM=="input", ATTR{name}=="TPPS/2 Synaptics TrackPoint", ATTR{device/sensitivity}="60"
+
