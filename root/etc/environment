@@ -8,4 +8,3 @@ QT_IM_MODULE=ibus
 XMODIFIERS=@im=ibus
 EDITOR=vim
 PAGER=less
-
