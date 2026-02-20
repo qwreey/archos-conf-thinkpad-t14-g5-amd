@@ -1,0 +1,254 @@
+# TODO: move all systemctl enable to script and create run all hook file
+# TODO: plymouth setup with script
+# TODO: flatpak apps run scripts
+
+# Check fwupd works in discover
+# Add kwallet manager
+# Create pendroid packagebuild
+#
+# waydroid waydroid-settings-git
+# pkg_script, ntsync-dkms
+# firewalld
+
+# DISPOSAL ---
+# Graphic drivers
+# "lib32-vulkan-radeon", "lib32-mesa",
+# "xf86-video-amdgpu",
+
+# Gstreamer
+# "gst-libav",
+# "gst-plugin-gtk4",
+# "gst-plugin-gtk",
+
+# Wine
+# "wine", "wine-gecko", "wine-mono",
+# "vkd3d",
+#
+# { name = "system:com.nextcloud.desktopclient.nextcloud", options = { remote = "flathub" } }, # Nextcloud
+# "keysmith", # 2fa key generator
+#  { name = "plasma6-applets-plasmavantage", hooks = { after_install = [
+#    "systemctl", "enable", "--now", "plasmavantage-noroot.service"
+#  ] } },
+# ------------
+
+arch = { packages = [
+
+  # -------------- CORE PACKAGES ---------------
+  # Core package
+  { name = "base", hooks = { after_install = [
+    "sh", "-c", "$HOME/.config/metapac/scripts/base_install.sh"
+  ] } },
+  "base-devel",
+  "linux",
+  "linux-firmware",
+  "linux-headers",
+  { name = "grub", hooks = { after_install = [
+    "sh", "-c", "$HOME/.config/metapac/scripts/grub/grub_install.sh"
+  ] } },
+  "efibootmgr",
+  "sudo",
+  "mandoc",
+  { name = "openssh", hooks = { after_install = [
+    "sudo", "systemctl", "enable", "sshd"
+  ] } },
+
+  # Package manager
+  "metapac", "paru", "downgrade",
+  { name = "flatpak", hooks = { after_install = [
+    "sh", "-c", "$HOME/.config/metapac/scripts/flatpak_install.sh"
+  ] } },
+  # ---------------------------------------------
+
+
+  # ------------- SYSTEM PACKAGES ---------------
+  # Pipewire audio
+  { name = "pipewire", hooks = { after_install = [
+    "sh", "-c", "$HOME/.config/metapac/scripts/pipewire_install.sh"
+  ] } },
+  "pipewire-pulse", "pipewire-jack", "pipewire-alsa",
+
+  # Graphic drivers
+  "mesa", "vulkan-radeon",
+
+  # Power manager
+  "ryzenadj", "tuned-ppd",
+  { name = "tuned", hooks = { after_install = [
+    "sh", "-c", "$HOME/.config/metapac/scripts/tuned/tuned_install.sh"
+  ] } },
+
+  # Network manager
+  { name = "bluez", hooks = { after_install = [
+    "sudo", "systemctl", "enable", "--now", "bluetooth",
+  ] } },
+  { name = "networkmanager", hooks = { after_install = [
+    "sh", "-c", "$HOME/.config/metapac/scripts/networkmanager_install.sh"
+  ] } },
+
+  # Inputs
+  "steam-devices",
+  { name = "input-remapper-bin", hooks = { after_install = [
+    "sudo", "systemctl", "enable", "--now", "input-remapper"
+  ] } },
+
+  # Gstreamer
+  "gstreamer",
+  "gst-plugin-va", "gst-plugin-pipewire",
+  "gst-plugins-ugly","gst-plugins-bad","gst-plugins-good",
+
+  # ETC
+  "ntfs-3g", # ntfs mount
+  "fprintd", # fingerprint module
+  "fwupd",   # firmware updater
+  "smartmontools",  # Storage smart value util
+  { name = "firewalld", hooks = { after_install = [
+    "sudo", "systemctl", "enable", "--now", "firewalld"
+  ] } },
+  "wireless-regdb",
+  # ---------------------------------------------
+
+
+  # ----------- DESKTOP ENVIONMENT --------------
+  # Desktop environment
+  "plasma-meta",
+  { name = "sddm-kcm", hooks = { after_install = [
+    # TODO: theme auto setup
+    "sudo", "systemctl", "enable", "--now", "sddm",
+  ] } },
+  "qt6-multimedia-ffmpeg",
+  "noto-fonts",
+  "colord-kde",
+  "packagekit-qt6",
+  "system-config-printer",
+  "plymouth-kcm", "breeze-plymouth", # Plymouth
+  "kaccounts-providers", "kio-gdrive", "kio-admin", # Online Account
+  "kdeconnect", "kdenetwork-filesharing", # KDE connect
+  "ffmpegthumbs", "kdegraphics-thumbnailers", # Thumbnail support
+
+  # OCR support
+  "tesseract",
+  "tesseract-data-jpn",
+  "tesseract-data-kor",
+  "tesseract-data-eng",
+
+  # Fonts
+  "noto-fonts-cjk",
+  "noto-fonts-emoji",
+
+  # IME
+  "fcitx5", "fcitx5-configtool",
+  "fcitx5-gtk", "fcitx5-hangul",
+  "fcitx5-qt",
+
+  # Plugins
+  "kwin-effects-better-blur-dx",
+  "plasma6-applets-panel-colorizer",
+  "plasma6-applets-wallpaper-effects",
+  "plasma6-applets-thermal-monitor",
+  # ---------------------------------------------
+
+
+  # ------------------ APPS ---------------------
+  # CLI
+  "fzf", "gdu", "git", "less", "unzip", "jq", "cloc", "7zip", "bat",
+  "vim", "zip", "zsh", "btop", "amdgpu_top", "nmap",
+  { name = "tailscale", hooks = { after_install = [
+    "sudo", "systemctl", "enable", "--now", "tailscaled"
+  ] } },
+  "bind", # DNS utility, such as dig
+
+  # Apps
+  "scrcpy",
+  "ridibooks",
+  { name  = "discord", hooks = { after_install = [
+    "sudo", "vencordinstallercli", "-install", "-branch", "auto"
+  ] } }, "vencord-installer-cli-bin",
+
+  # Editor & Viewer & Common app
+  "libreoffice-fresh", "libreoffice-extension-h2orestart",
+  "dolphin", # File browser
+  "konsole", # Terminal emulator
+  "ksystemlog", # System log viewer
+  "dragon", # multimedia player
+  "kdenlive", # Video editor
+  "krita", # Drawing editor
+  "kate", # KWrite/Kate text editor
+  "xournalpp", # Note taking
+  "gwenview", # Image viewer
+  "kgpg", # Gpg key manager
+  "elisa", # Music player
+  "kruler", # Screen ruler
+  "okular", # Epub, pdf viewer
+  "kalk", # Calculator (or kcalc)
+  "kwalletmanager", # Cert wallet manager
+  "qrca", # QR scanner
+  "kweather", # Weather
+  "ark", # Archiving Tool
+  "filelight", # Disk usage (or kdf)
+  "kclock", # Clock
+  "kfind", # File finder
+  "merkuro", # Calendar
+  "kcharselect", # Character selector
+
+  # JAVA
+  "gradle",
+  "jdk11-openjdk",
+  "jdk21-openjdk",
+  "jdk8-openjdk",
+
+  # Development
+  "visual-studio-code-bin",
+  "jetbrains-toolbox",
+  "android-studio",
+
+  # Virtualization
+  "virtualbox-ext-oracle",
+  "virtualbox-bin",
+  # ---------------------------------------------
+] }
+
+
+[flatpak]
+repos = [
+  { name = "system:flathub", options = { url = "https://dl.flathub.org/repo/" } },
+]
+packages = [
+  # appstream:be.alexandervanhee.gradia screenshot annotate
+  { name = "system:org.gimp.GIMP", options = { remote = "flathub" } },
+  { name = "system:org.mozilla.firefox", options = { remote = "flathub" } },
+  {
+    # Steam
+    # Note: To fix .desktop file creation, you should run this first https://github.com/flathub/com.valvesoftware.Steam/issues/85#issuecomment-650597824
+    # Unpack and override 'SteamUbuntuNonlicenseCopy.tar.zst' is required
+    # To some games works fine, get it on https://cloud.qwreey.moe/index.php/s/dYfdJgd9N4HDqgc
+    name = "system:com.valvesoftware.Steam",
+    options = { remote = "flathub" },
+    hooks = { after_install = [ "sh", "-c", "$HOME/.config/metapac/scripts/steam_install.sh" ] }
+  },
+  {
+    name = "system:com.google.Chrome",
+    options = { remote = "flathub" },
+    hooks = { after_install = [ "sh", "-c", "$HOME/.config/metapac/scripts/chrome_install.sh" ] }
+  },
+  { name = "system:com.moonlight_stream.Moonlight", options = { remote = "flathub" } },
+  { name = "system:com.obsproject.Studio", options = { remote = "flathub" } },
+  { name = "system:ca.desrt.dconf-editor", options = { remote = "flathub" } },
+  { name = "system:org.gnome.Geary", options = { remote = "flathub" } },
+  { name = "system:com.usebottles.bottles", options = { remote = "flathub" } },
+  { name = "system:io.github.pwr_solaar.solaar", options = { remote = "flathub" } },
+  { name = "system:org.remmina.Remmina", options = { remote = "flathub" } },
+  { name = "system:org.prismlauncher.PrismLauncher", options = { remote = "flathub" } },
+  { name = "system:com.inochi2d.inochi-session", options = { remote = "flathub" } },
+  { name = "system:com.inochi2d.inochi-creator", options = { remote = "flathub" } },
+  { name = "system:com.github.tchx84.Flatseal", options = { remote = "flathub" } },
+  { name = "system:io.github.flattool.Warehouse", options = { remote = "flathub" } },
+  { name = "system:com.mardojai.ForgeSparks", options = { remote = "flathub" } },
+  { name = "system:org.vinegarhq.Vinegar", options = { remote = "flathub" } },
+  { name = "system:org.vinegarhq.Sober", options = { remote = "flathub" } }, # Roblox
+  { name = "system:org.fkoehler.KTailctl", options = { remote = "flathub" } }, # Tailscale gui
+  { name = "system:com.github.wwmm.easyeffects", options = { remote = "flathub" } }, # Easyeffects
+  { name = "system:im.riot.Riot", options = { remote = "flathub" } }, # Element Desktop
+
+  # Kde apps
+  { name = "system:org.kde.okteta", options = { remote = "flathub" } }, # Hex editor
+]
+

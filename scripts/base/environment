@@ -3,8 +3,6 @@
 #
 # Syntax: simple "KEY=VAL" pairs on separate lines
 #
-GTK_IM_MODULE=ibus
-QT_IM_MODULE=ibus
-XMODIFIERS=@im=ibus
+XMODIFIERS=@im=fcitx5
 EDITOR=vim
 PAGER=less

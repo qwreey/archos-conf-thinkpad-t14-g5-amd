@@ -1,8 +1,0 @@
-#!/bin/sh
-if [ "$1" == "post" ]; then
-	/usr/bin/rmmod psmouse
-	/usr/bin/modprobe psmouse
-	echo 0 > /sys/class/leds/tpacpi::lid_logo_dot/brightness
-	echo 0 > /sys/class/leds/tpacpi::power/brightness
-	/etc/tuned/profiles/$(tuned-adm active | sed 's/^.*: //g')/script.sh
-fi
