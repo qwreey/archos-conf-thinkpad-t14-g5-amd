@@ -1,0 +1,5 @@
+#!/usr/bin/sh
+
+sudo cp $HOME/.config/kwinoutputconfig.json ~plasmalogin/.config
+sudo chown plasmalogin:plasmalogin ~plasmalogin/.config/kwinoutputconfig.json
+

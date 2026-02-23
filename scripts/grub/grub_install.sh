@@ -1,8 +1,10 @@
-#/usr/bin/bash
+#!/usr/bin/bash
 
 echo "Script: Run grub after_install"
 
 SPATH="$(dirname "$(readlink -f "$0")")"
+
+[ ! -e /boot/grub ] && sudo grub-install --bootloader-id=GRUB --target=x86_64-efi --efi-directory=/boot --removable
 
 cat <<EOF | sudo tee /boot/grub/custom.cfg
 set menu_color_normal=light-gray/black

@@ -1,6 +1,22 @@
 # TODO: move all systemctl enable to script and create run all hook file
 # TODO: plymouth setup with script
 # TODO: flatpak apps run scripts
+# TODO: kdenlive and krita use flatpak
+# arch linux update applit for plasma
+# build all aurs in container?
+# License 'licentia' selector, even not exist on aur and flatpak, wait for release
+# smb setup
+# How to set up lsp for kate? clang, rust, luau, python, javascript, typescript
+# quickshare can do?
+# customize breeze theme with match to firefox is ok? i should try
+# power use of battery and charge of battery is good to place widget
+# TODO: plymouth fade in at first look
+# TODO: check amd/thinkpad before setup some udev rules
+# TODO: konsole+vim encoding issue fix
+# TODO: 터미널 path 너무 길어요 길어
+# TODO: using keyd
+# TODO: install plasma packages using plasma package manager (including yakuake)
+# TODO: add conf file to select lang..
 
 # Check fwupd works in discover
 # Add kwallet manager
@@ -11,6 +27,16 @@
 # firewalld
 
 # DISPOSAL ---
+# Dumbs of thumbnailers
+# Maybe this is not required, even works without this
+# "icoutils", .ico .cur .exe icon preview [OKWITHOUT]
+# "resvg", # .svg icon preview [OKWITHOUT]
+# "raw-thumbnailer", # .raw icon preview [OKWITHOUT?]
+# libheif HEIF format support [REQUIRED!!]
+# libavif: AVIF format support [OKWITHOUT?]
+# libraw: RAW format support [OKWITHOUT?]
+# "kde-thumbnailer-apk",      # .apk (not working?)
+
 # Graphic drivers
 # "lib32-vulkan-radeon", "lib32-mesa",
 # "xf86-video-amdgpu",
@@ -42,6 +68,7 @@ arch = { packages = [
   "linux",
   "linux-firmware",
   "linux-headers",
+  "amd-ucode",
   { name = "grub", hooks = { after_install = [
     "sh", "-c", "$HOME/.config/metapac/scripts/grub/grub_install.sh"
   ] } },
@@ -109,10 +136,8 @@ arch = { packages = [
 
   # ----------- DESKTOP ENVIONMENT --------------
   # Desktop environment
-  "plasma-meta",
-  { name = "sddm-kcm", hooks = { after_install = [
-    # TODO: theme auto setup
-    "sudo", "systemctl", "enable", "--now", "sddm",
+  { name = "plasma-meta", hooks = { after_install = [
+    "sudo", "systemctl", "enable", "--now", "plasmalogin",
   ] } },
   "qt6-multimedia-ffmpeg",
   "noto-fonts",
@@ -120,9 +145,23 @@ arch = { packages = [
   "packagekit-qt6",
   "system-config-printer",
   "plymouth-kcm", "breeze-plymouth", # Plymouth
-  "kaccounts-providers", "kio-gdrive", "kio-admin", # Online Account
+  "kaccounts-providers", # Online Account
   "kdeconnect", "kdenetwork-filesharing", # KDE connect
-  "ffmpegthumbs", "kdegraphics-thumbnailers", # Thumbnail support
+  "plasma-sdk", # Devtools
+
+  # KIO support
+  "kio", "kio-extras",
+  "kio-s3",
+  "kio-stash",
+  "kio-zeroconf",
+  "kio-admin",
+  "kio-gdrive",
+
+  # Thumbnailer
+  "ffmpegthumbs",             # Videos: .mp4 .webm ...
+  "kdegraphics-thumbnailers", # Docs:  .pdf .raw ...
+  "glycin",                   # Images: .jpeg .avif .svg
+  "libappimage",              # .AppImage
 
   # OCR support
   "tesseract",
@@ -141,6 +180,7 @@ arch = { packages = [
 
   # Plugins
   "kwin-effects-better-blur-dx",
+  # "kwin-scripts-kzones",
   "plasma6-applets-panel-colorizer",
   "plasma6-applets-wallpaper-effects",
   "plasma6-applets-thermal-monitor",
@@ -160,19 +200,17 @@ arch = { packages = [
   "scrcpy",
   "ridibooks",
   { name  = "discord", hooks = { after_install = [
-    "sudo", "vencordinstallercli", "-install", "-branch", "auto"
+    "sh", "-c", "$HOME/.config/metapac/scripts/discord_install.sh"
   ] } }, "vencord-installer-cli-bin",
 
   # Editor & Viewer & Common app
+  "xournalpp", # Note taking
   "libreoffice-fresh", "libreoffice-extension-h2orestart",
-  "dolphin", # File browser
-  "konsole", # Terminal emulator
+  "dolphin", "dolphin-plugins", # File browser
+  "konsole", "yakuake", # Terminal emulator
   "ksystemlog", # System log viewer
   "dragon", # multimedia player
-  "kdenlive", # Video editor
-  "krita", # Drawing editor
   "kate", # KWrite/Kate text editor
-  "xournalpp", # Note taking
   "gwenview", # Image viewer
   "kgpg", # Gpg key manager
   "elisa", # Music player
@@ -188,6 +226,10 @@ arch = { packages = [
   "kfind", # File finder
   "merkuro", # Calendar
   "kcharselect", # Character selector
+  "partitionmanager", # Partition manager
+  # "systemdgenie", # Systemd unit management !!requires qt5
+  # "krita", # Drawing editor !!requires qt5 !!should in flatpak
+  # "kdenlive", # Video editor !!should in flatpak
 
   # JAVA
   "gradle",
@@ -199,6 +241,11 @@ arch = { packages = [
   "visual-studio-code-bin",
   "jetbrains-toolbox",
   "android-studio",
+
+  # Docker
+  "docker",
+  "docker-compose",
+  "docker-buildx",
 
   # Virtualization
   "virtualbox-ext-oracle",
@@ -250,5 +297,7 @@ packages = [
 
   # Kde apps
   { name = "system:org.kde.okteta", options = { remote = "flathub" } }, # Hex editor
+  { name = "system:org.kde.neochat", options = { remote = "flathub" } }, # Matrix client
+  { name = "system:org.kde.krita", options = { remote = "flathub" } },
+  { name = "system:org.kde.kdenlive", options = { remote = "flathub" } },
 ]
-
