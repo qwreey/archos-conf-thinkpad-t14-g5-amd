@@ -11,6 +11,8 @@ fcitx5 fcitx5-configtool fcitx5-gtk fcitx5-hangul fcitx5-qt \
 gparted firefox konsole \
 fzf gdu git less unzip 7zip vim zip zsh btop nmap bind
 
+
+
 pacman -Scc
 
 # Systemd unit enable
@@ -37,3 +39,7 @@ chsh $USERNAME --shell /usr/bin/zsh
 
 # Sudo setup
 sed 's/# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/%wheel ALL=(ALL:ALL) NOPASSWD: ALL/' -i /etc/sudoers
+
+# Grub install
+grub-install --efi-directory=/boot --removable --bootloader-id=ARCH_LIVEBOOT --target=x86_64-efi
+grub-mkconfig -o /boot/grub/grub.cfg

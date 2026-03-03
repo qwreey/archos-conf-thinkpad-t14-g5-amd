@@ -112,6 +112,14 @@ arch = { packages = [
   { name = "networkmanager", hooks = { after_install = [
     "sh", "-c", "$HOME/.config/metapac/scripts/networkmanager_install.sh"
   ] } },
+  "wireless-regdb",
+  { name = "firewalld", hooks = { after_install = [
+    "sudo", "systemctl", "enable", "--now", "firewalld"
+  ] } },
+  { name = "avahi", hooks = { after_install = [
+    "sh", "-c", "$HOME/.config/metapac/scripts/avahi_install.sh"
+  ] } },
+  "nss-mdns",
 
   # Inputs
   "steam-devices",
@@ -131,10 +139,6 @@ arch = { packages = [
   "fwupd",          # firmware updater
   "smartmontools",  # Storage smart value util
   "arch-install-scripts",
-  { name = "firewalld", hooks = { after_install = [
-    "sudo", "systemctl", "enable", "--now", "firewalld"
-  ] } },
-  "wireless-regdb",
   # ---------------------------------------------
 
 
