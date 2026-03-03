@@ -1,0 +1,12 @@
+#!/usr/bin/bash
+
+JB_BASEDIR=$HOME/.config/JetBrains
+
+for CONF in $JB_BASEDIR/*/*.vmoptions; do
+    if grep "\\-Dawt\\.toolkit\\.name" $CONF > /dev/null; then
+        sed 's|\-Dawt\.toolkit\.name=.+|-Dawt.toolkit.name=WLToolKit|' -i $CONF
+    else
+        echo "\n-Dawt.toolkit.name=WLToolkit" >> $CONF
+    fi
+done
+
