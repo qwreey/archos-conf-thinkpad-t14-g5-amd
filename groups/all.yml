@@ -50,10 +50,12 @@
 # "wine", "wine-gecko", "wine-mono",
 # "vkd3d",
 #
-# { name = "system:com.nextcloud.desktopclient.nextcloud", options = { remote = "flathub" } }, # Nextcloud
-# "keysmith", # 2fa key generator
 #  { name = "plasma6-applets-plasmavantage", hooks = { after_install = [
 #    "systemctl", "enable", "--now", "plasmavantage-noroot.service"
+#  ] } },
+#  { name = "system:org.pvermeer.WebAppHub", options = { remote = "flathub" } },
+#  { name = "input-remapper-bin", hooks = { after_install = [
+#    "sudo", "systemctl", "enable", "--now", "input-remapper"
 #  ] } },
 # ------------
 
@@ -113,8 +115,8 @@ arch = { packages = [
 
   # Inputs
   "steam-devices",
-  { name = "input-remapper-bin", hooks = { after_install = [
-    "sudo", "systemctl", "enable", "--now", "input-remapper"
+  { name = "keyd", hooks = { after_install = [
+    "sh", "-c", "$HOME/.config/metapac/scripts/keyd/keyd_install.sh"
   ] } },
 
   # Gstreamer
@@ -123,10 +125,12 @@ arch = { packages = [
   "gst-plugins-ugly","gst-plugins-bad","gst-plugins-good",
 
   # ETC
-  "ntfs-3g", # ntfs mount
-  "fprintd", # fingerprint module
-  "fwupd",   # firmware updater
+  "ntfs-3g",        # ntfs mount
+  "dosfstools",     # fat support
+  "fprintd",        # fingerprint module
+  "fwupd",          # firmware updater
   "smartmontools",  # Storage smart value util
+  "arch-install-scripts",
   { name = "firewalld", hooks = { after_install = [
     "sudo", "systemctl", "enable", "--now", "firewalld"
   ] } },
@@ -164,10 +168,11 @@ arch = { packages = [
   "libappimage",              # .AppImage
 
   # OCR support
-  "tesseract",
-  "tesseract-data-jpn",
-  "tesseract-data-kor",
-  "tesseract-data-eng",
+  # Due to loading speed issue, currently disable this
+  # "tesseract",
+  # "tesseract-data-jpn",
+  # "tesseract-data-kor",
+  # "tesseract-data-eng",
 
   # Fonts
   "noto-fonts-cjk",
@@ -205,9 +210,8 @@ arch = { packages = [
 
   # Editor & Viewer & Common app
   "xournalpp", # Note taking
-  "libreoffice-fresh", "libreoffice-extension-h2orestart",
   "dolphin", "dolphin-plugins", # File browser
-  "konsole", "yakuake", # Terminal emulator
+  "konsole", # Terminal emulator
   "ksystemlog", # System log viewer
   "dragon", # multimedia player
   "kate", # KWrite/Kate text editor
@@ -227,9 +231,10 @@ arch = { packages = [
   "merkuro", # Calendar
   "kcharselect", # Character selector
   "partitionmanager", # Partition manager
+  "plasma-camera", # Camera app
+  "kmail", # Email client
+  # "keysmith", # 2fa key generator # gnome's one is better
   # "systemdgenie", # Systemd unit management !!requires qt5
-  # "krita", # Drawing editor !!requires qt5 !!should in flatpak
-  # "kdenlive", # Video editor !!should in flatpak
 
   # JAVA
   "gradle",
@@ -259,9 +264,20 @@ repos = [
   { name = "system:flathub", options = { url = "https://dl.flathub.org/repo/" } },
 ]
 packages = [
-  # appstream:be.alexandervanhee.gradia screenshot annotate
-  { name = "system:org.gimp.GIMP", options = { remote = "flathub" } },
+  # Browser
   { name = "system:org.mozilla.firefox", options = { remote = "flathub" } },
+  {
+    name = "system:com.google.Chrome",
+    options = { remote = "flathub" },
+    hooks = { after_install = [ "sh", "-c", "$HOME/.config/metapac/scripts/chrome_install.sh" ] }
+  },
+
+  # Editor
+  { name = "system:org.gimp.GIMP", options = { remote = "flathub" } },
+  { name = "system:org.libreoffice.LibreOffice", options = { remote = "flathub" } },
+  { name = "system:org.inkscape.Inkscape", options = { remote = "flathub" } },
+
+  # Gaming
   {
     # Steam
     # Note: To fix .desktop file creation, you should run this first https://github.com/flathub/com.valvesoftware.Steam/issues/85#issuecomment-650597824
@@ -271,33 +287,38 @@ packages = [
     options = { remote = "flathub" },
     hooks = { after_install = [ "sh", "-c", "$HOME/.config/metapac/scripts/steam_install.sh" ] }
   },
-  {
-    name = "system:com.google.Chrome",
-    options = { remote = "flathub" },
-    hooks = { after_install = [ "sh", "-c", "$HOME/.config/metapac/scripts/chrome_install.sh" ] }
-  },
+  { name = "system:net.davidotek.pupgui2", options = { remote = "flathub" } }, # ProtonUp-Qt
+  { name = "system:org.vinegarhq.Vinegar", options = { remote = "flathub" } }, # Roblox Studio
+  { name = "system:org.vinegarhq.Sober", options = { remote = "flathub" } }, # Roblox
+  { name = "system:org.prismlauncher.PrismLauncher", options = { remote = "flathub" } }, # Minecraft launcher
+
+  # Remote
   { name = "system:com.moonlight_stream.Moonlight", options = { remote = "flathub" } },
+  { name = "system:org.remmina.Remmina", options = { remote = "flathub" } }, # RDP/VNC client
+
+  # Live broadcast
   { name = "system:com.obsproject.Studio", options = { remote = "flathub" } },
-  { name = "system:ca.desrt.dconf-editor", options = { remote = "flathub" } },
-  { name = "system:org.gnome.Geary", options = { remote = "flathub" } },
-  { name = "system:com.usebottles.bottles", options = { remote = "flathub" } },
-  { name = "system:io.github.pwr_solaar.solaar", options = { remote = "flathub" } },
-  { name = "system:org.remmina.Remmina", options = { remote = "flathub" } },
-  { name = "system:org.prismlauncher.PrismLauncher", options = { remote = "flathub" } },
   { name = "system:com.inochi2d.inochi-session", options = { remote = "flathub" } },
   { name = "system:com.inochi2d.inochi-creator", options = { remote = "flathub" } },
+
+  # Flatpak management
   { name = "system:com.github.tchx84.Flatseal", options = { remote = "flathub" } },
   { name = "system:io.github.flattool.Warehouse", options = { remote = "flathub" } },
-  { name = "system:com.mardojai.ForgeSparks", options = { remote = "flathub" } },
-  { name = "system:org.vinegarhq.Vinegar", options = { remote = "flathub" } },
-  { name = "system:org.vinegarhq.Sober", options = { remote = "flathub" } }, # Roblox
-  { name = "system:org.fkoehler.KTailctl", options = { remote = "flathub" } }, # Tailscale gui
-  { name = "system:com.github.wwmm.easyeffects", options = { remote = "flathub" } }, # Easyeffects
-  { name = "system:im.riot.Riot", options = { remote = "flathub" } }, # Element Desktop
 
   # Kde apps
   { name = "system:org.kde.okteta", options = { remote = "flathub" } }, # Hex editor
   { name = "system:org.kde.neochat", options = { remote = "flathub" } }, # Matrix client
   { name = "system:org.kde.krita", options = { remote = "flathub" } },
   { name = "system:org.kde.kdenlive", options = { remote = "flathub" } },
+
+  { name = "system:ca.desrt.dconf-editor", options = { remote = "flathub" } },
+  { name = "system:org.gnome.Geary", options = { remote = "flathub" } },
+  { name = "system:com.usebottles.bottles", options = { remote = "flathub" } }, # Wine app manager
+  { name = "system:io.github.pwr_solaar.solaar", options = { remote = "flathub" } }, # Logitech device manager
+  { name = "system:com.mardojai.ForgeSparks", options = { remote = "flathub" } },
+  { name = "system:org.fkoehler.KTailctl", options = { remote = "flathub" } }, # Tailscale gui
+  { name = "system:com.github.wwmm.easyeffects", options = { remote = "flathub" } }, # Easyeffects
+  { name = "system:it.mijorus.gearlever", options = { remote = "flathub" } },
+  { name = "system:org.freedesktop.Bustle", options = { remote = "flathub" } },
+  { name = "system:com.belmoussaoui.Authenticator", options = { remote = "flathub" } },
 ]

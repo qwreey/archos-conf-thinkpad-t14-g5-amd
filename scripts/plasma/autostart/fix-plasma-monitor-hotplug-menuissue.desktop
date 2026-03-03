@@ -1,0 +1,6 @@
+[Desktop Entry]
+Exec=/home/yaeji/.local/bin/fix-plasma-monitor-hotplug-menuissue
+Icon=application-x-shellscript
+Name=fix-plasma-monitor-hotplug-menuissue
+Type=Application
+X-KDE-AutostartScript=true
