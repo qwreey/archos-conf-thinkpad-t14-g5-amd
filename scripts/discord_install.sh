@@ -17,3 +17,4 @@ When = PostTransaction
 Exec = /usr/bin/vencordinstallercli -install -branch auto
 EOF
 sudo vencordinstallercli -install -branch auto
+

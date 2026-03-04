@@ -1,5 +1,4 @@
 #/usr/bin/bash
-
 process_curr() {
 	[[ -z "$NAME" ]] && return 0
 

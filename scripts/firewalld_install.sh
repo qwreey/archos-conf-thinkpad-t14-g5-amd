@@ -1,8 +1,9 @@
 #!/usr/bin/bash
 
+echo "Script: Run firewalld after_install"
+
 SERVICE_LIST_ARR=( dhcpv6-client kdeconnect mdns ssh steam-streaming steam-lan-transfer )
 TRUSTED_INTERFACE_LIST_ARR=( tailscale0 )
-
 
 CHANGED=no
 sync_trust() {
