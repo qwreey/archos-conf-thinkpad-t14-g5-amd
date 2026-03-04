@@ -24,9 +24,8 @@ if lsmod | grep thinkpad_acpi &> /dev/null; then
 fi
 
 # Setup locale
-sudo localectl set-locale LANG="en_US.UTF-8"
+sudo sed "s|#* *ko_KR.UTF-8 UTF-8|ko_KR.UTF-8 UTF-8|g" -i /etc/locale.gen
+sudo sed "s|#* *en_US.UTF-8 UTF-8|en_US.UTF-8 UTF-8|g" -i /etc/locale.gen
 sudo locale-gen
-
-# Update mkinitcpio flags
-sudo sed "s|HOOKS=(.*)|HOOKS=(base systemd plymouth autodetect microcode modconf kms keyboard keymap sd-vconsole block filesystems fsck)|g" -i /etc/mkinitcpio.conf
+sudo localectl set-locale LANG="en_US.UTF-8" LC_CTYPE="C.UTF-8"
 
