@@ -261,7 +261,6 @@ packages = [
   { name = "system:org.kde.kdenlive", options = { remote = "flathub" } },
 
   { name = "system:ca.desrt.dconf-editor", options = { remote = "flathub" } },
-  { name = "system:org.gnome.Geary", options = { remote = "flathub" } },
   { name = "system:com.usebottles.bottles", options = { remote = "flathub" } }, # Wine app manager
   { name = "system:io.github.pwr_solaar.solaar", options = { remote = "flathub" } }, # Logitech device manager
   { name = "system:com.mardojai.ForgeSparks", options = { remote = "flathub" } },
