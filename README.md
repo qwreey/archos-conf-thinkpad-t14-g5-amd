@@ -1,5 +1,7 @@
 # qwreey/archos-conf
 
+qwreey 가 arch-linux 에서 사용하고 있는 설정에 관한 거의 모든것을 담는 저장소입니다.
+
 ## 자동설정 스크립트
 
 arch-linux 를 설치 후 번거로운 설정을 자동으로 고쳐주는 도구 모음입니다.
