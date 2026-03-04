@@ -72,7 +72,7 @@ arch = { packages = [
     "sh", "-c", "$HOME/.config/metapac/scripts/keyd/keyd_install.sh"
   ] } },
 
-  # Gstreamer
+  # Gstreamer (wine/gtk media decoding/encoding)
   "gstreamer",
   "gst-plugin-va", "gst-plugin-pipewire",
   "gst-plugins-ugly","gst-plugins-bad","gst-plugins-good",
