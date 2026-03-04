@@ -107,19 +107,25 @@ arch = { packages = [
 
   # Network manager
   { name = "bluez", hooks = { after_install = [
-    "sudo", "systemctl", "enable", "--now", "bluetooth",
+    "sudo", "systemctl", "enable", "--now", "bluetooth"
   ] } },
   { name = "networkmanager", hooks = { after_install = [
     "sh", "-c", "$HOME/.config/metapac/scripts/networkmanager_install.sh"
   ] } },
   "wireless-regdb",
   { name = "firewalld", hooks = { after_install = [
-    "sudo", "systemctl", "enable", "--now", "firewalld"
+    "sh", "-c", "$HOME/.config/metapac/scripts/firewalld_install.sh"
   ] } },
   { name = "avahi", hooks = { after_install = [
     "sh", "-c", "$HOME/.config/metapac/scripts/avahi_install.sh"
   ] } },
   "nss-mdns",
+
+  # Printer
+  { name = "cups", hooks = { after_install = [
+    "sudo", "systemctl", "enable", "--now", "cups"
+  ] } },
+  "cups-browsed",
 
   # Inputs
   "steam-devices",

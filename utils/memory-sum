@@ -1,0 +1,4 @@
+#!/usr/bin/sh
+
+sudo ps -A --format %mem | perl -e 'my $wow=0.0; while (my $row = <>) { $wow+=$row; } print$wow' 2> /dev/null
+
