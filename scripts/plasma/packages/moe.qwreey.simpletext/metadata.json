@@ -1,0 +1,18 @@
+{
+    "KPackageStructure": "KSysguard/SensorFace",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "mart@kde.org",
+                "Name": "Marco Martin"
+            }
+        ],
+        "Icon": "view-list-text",
+        "Id": "moe.qwreey.simpletext",
+        "License": "LGPLv2+",
+        "Name": "Simple Text",
+        "Version": "1.0",
+        "Website": "https://kde.org"
+    },
+    "X-KDE-ParentApp": "org.kde.plasmashell"
+}

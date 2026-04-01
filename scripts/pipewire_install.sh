@@ -10,3 +10,10 @@ context.properties = {
 }
 EOF
 
+mkdir -p ~/.config/wireplumber/wireplumber.conf.d
+cat <<EOF | tee ~/.config/wireplumber/wireplumber.conf.d/80-bluez-disable-hw-volume.conf
+monitor.bluez.properties = {
+  bluez5.enable-hw-volume = false
+}
+EOF
+

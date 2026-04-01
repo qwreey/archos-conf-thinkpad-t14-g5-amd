@@ -12,6 +12,7 @@ extract_optns() {
 		fi
 	done
 }
+
 extract_enable_feats() {
 	local first=yes
 	for x in "${CHROME_FLAG_LIST[@]}"; do
@@ -26,6 +27,7 @@ extract_enable_feats() {
 		fi
 	done
 }
+
 extract_disable_feats() {
 	local first=yes
 	for x in "${CHROME_FLAG_LIST[@]}"; do
@@ -41,24 +43,46 @@ extract_disable_feats() {
 	done
 }
 
-mkdir -p .var/app/com.google.Chrome/config
-cat <<EOF > .var/app/com.google.Chrome/config/chrome-flags.conf
+write_configs() {
+	CONFIG_CONTENT=$(cat <<EOF
 $(extract_optns)
 $(extract_disable_feats)
 $(extract_enable_feats)
 EOF
+	)
+	for path in "${CHROME_FLAG_LIST_PATH[@]}"; do
+		mkdir -p "$(dirname "$path")"
+		tee "$path" <<< "$CONFIG_CONTENT"
+	done
+}
 
-flatpak --user override --filesystem=xdg-data/icons com.google.Chrome
-flatpak --user override --filesystem=xdg-data/applications com.google.Chrome
-flatpak --user override --filesystem=xdg-desktop com.google.Chrome
-flatpak override --user --talk-name=org.kde.kwalletd6 com.google.Chrome
+update_flatpak_perm() {
+	for x in "${CHROME_FLATPAK_IDS[@]}"; do
+		flatpak --user override --filesystem=xdg-data/icons "$x"
+		flatpak --user override --filesystem=xdg-data/applications "$x"
+		flatpak --user override --filesystem=xdg-desktop "$x"
+		flatpak override --user --talk-name=org.kde.kwalletd6 "$x"
+	done
+}
 
-if [ ! -e /usr/local/bin/chrome ]; then
-	sudo mkdir -p /usr/local/bin
-	cat <<EOF | sudo tee /usr/local/bin/chrome
-#!/bin/bash
-flatpak run com.google.Chrome \$@
+update_autostart() {
+	if [ -z "$CHROME_AUTOSTART" ]; then
+		[ -e ~/.config/autostart/chrome-autostart.desktop ] && rm ~/.config/autostart/chrome-autostart.desktop
+		return
+	fi
+	cat <<EOF | tee ~/.config/autostart/chrome-autostart.desktop
+[Desktop Entry]
+Comment=Start chrome background workers without main window
+Exec=$CHROME_AUTOSTART
+Name=chrome-autostart
+StartupNotify=false
+Terminal=false
+Type=Application
+Version=1.0
 EOF
-	sudo chmod a+x /usr/local/bin/chrome
-fi
+}
+
+write_configs
+update_flatpak_perm
+update_autostart
 

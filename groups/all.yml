@@ -83,6 +83,7 @@ arch = { packages = [
   "fprintd",        # fingerprint module
   "fwupd",          # firmware updater
   "smartmontools",  # Storage smart value util
+  "usbutils",
   "arch-install-scripts",
   # ---------------------------------------------
 
@@ -99,22 +100,28 @@ arch = { packages = [
   "system-config-printer",
   "plymouth-kcm", "breeze-plymouth", # Plymouth
   "kaccounts-providers", # Online Account
-  "kdeconnect", "kdenetwork-filesharing", # KDE connect
+  "kdeconnect", # KDE connect
   "plasma-sdk", # Devtools
+  "kdenetwork-filesharing", # SMB file sharing
 
   # KIO support
   "kio", "kio-extras",
-  "kio-s3",
-  "kio-stash",
   "kio-zeroconf",
   "kio-admin",
-  "kio-gdrive",
+  "audiocd-kio",
+  # "kio-s3",
+  # "kio-stash",
+  # "kio-gdrive",
 
   # Thumbnailer
   "ffmpegthumbs",             # Videos: .mp4 .webm ...
   "kdegraphics-thumbnailers", # Docs:  .pdf .raw ...
   "glycin",                   # Images: .jpeg .avif .svg
   "libappimage",              # .AppImage
+
+  # kpart (kate/konqueror/ark)
+  "svgpart",
+  "markdownpart",
 
   # OCR support
   # Due to loading speed issue, currently disable this
@@ -136,15 +143,13 @@ arch = { packages = [
   "kwin-effects-better-blur-dx",
   # "kwin-scripts-kzones",
   "plasma6-applets-panel-colorizer",
-  "plasma6-applets-wallpaper-effects",
-  "plasma6-applets-thermal-monitor",
   # ---------------------------------------------
 
 
   # ------------------ APPS ---------------------
   # CLI
   "fzf", "gdu", "git", "less", "unzip", "jq", "cloc", "7zip", "bat",
-  "vim", "zip", "zsh", "btop", "amdgpu_top", "nmap",
+  "vim", "zip", "zsh", "btop", "amdgpu_top", "nmap", "kdialog",
   { name = "tailscale", hooks = { after_install = [
     "sudo", "systemctl", "enable", "--now", "tailscaled"
   ] } },
@@ -156,14 +161,20 @@ arch = { packages = [
   { name  = "discord", hooks = { after_install = [
     "sh", "-c", "$HOME/.config/metapac/scripts/discord_install.sh"
   ] } }, "vencord-installer-cli-bin",
+  { name = "google-chrome", hooks = { after_install = [
+    "sh", "-c", "$HOME/.config/metapac/scripts/chrome_install.sh"
+  ] } },
 
   # Editor & Viewer & Common app
-  "xournalpp", # Note taking
+  # "xournalpp", # Note taking (Moved to flatpak)
   "dolphin", "dolphin-plugins", # File browser
   "konsole", # Terminal emulator
   "ksystemlog", # System log viewer
+  "kjournald", # Journald viewer
+  "khelpcenter", # Man page / kde app help document viewer
   "dragon", # multimedia player
   "kate", # KWrite/Kate text editor
+  "ghostwriter", # Markdown editor
   "gwenview", # Image viewer
   "kgpg", # Gpg key manager
   "elisa", # Music player
@@ -181,7 +192,9 @@ arch = { packages = [
   "kcharselect", # Character selector
   "partitionmanager", # Partition manager
   "plasma-camera", # Camera app
-  "kmail", # Email client
+  "kmail", "kdepim-addons", # Email client
+  "krfb", # Remote control
+  "pavucontrol-qt", # Volume control (pulseaudio)
   # "keysmith", # 2fa key generator # gnome's one is better
   # "systemdgenie", # Systemd unit management !!requires qt5
 
@@ -202,8 +215,7 @@ arch = { packages = [
   "docker-buildx",
 
   # Virtualization
-  "virtualbox-ext-oracle",
-  "virtualbox-bin",
+  # "virt-manager",
   # ---------------------------------------------
 ] }
 
@@ -215,16 +227,12 @@ repos = [
 packages = [
   # Browser
   { name = "system:org.mozilla.firefox", options = { remote = "flathub" } },
-  {
-    name = "system:com.google.Chrome",
-    options = { remote = "flathub" },
-    hooks = { after_install = [ "sh", "-c", "$HOME/.config/metapac/scripts/chrome_install.sh" ] }
-  },
 
   # Editor
   { name = "system:org.gimp.GIMP", options = { remote = "flathub" } },
   { name = "system:org.libreoffice.LibreOffice", options = { remote = "flathub" } },
   { name = "system:org.inkscape.Inkscape", options = { remote = "flathub" } },
+  { name = "system:org.audacityteam.Audacity", options = { remote = "flathub" } },
 
   # Gaming
   {
@@ -269,4 +277,10 @@ packages = [
   { name = "system:it.mijorus.gearlever", options = { remote = "flathub" } },
   { name = "system:org.freedesktop.Bustle", options = { remote = "flathub" } },
   { name = "system:com.belmoussaoui.Authenticator", options = { remote = "flathub" } },
+  { name = "system:com.github.Anuken.Mindustry", options = { remote = "flathub" } },
+  { name = "system:net.sapples.LiveCaptions", options = { remote = "flathub" } },
+  { name = "system:de.haeckerfelix.AudioSharing", options = { remote = "flathub" } },
+  { name = "system:org.nickvision.tubeconverter", options = { remote = "flathub" } },
+  { name = "system:org.pipewire.Helvum", options = { remote = "flathub" } },
+  { name = "system:com.github.xournalpp.xournalpp", options = { remote = "flathub" } },
 ]

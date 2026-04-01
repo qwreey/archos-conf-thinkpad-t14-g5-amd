@@ -13,3 +13,5 @@ flatpak --user override --filesystem=xdg-data/icons com.valvesoftware.Steam
 flatpak --user override --filesystem=xdg-data/applications com.valvesoftware.Steam
 flatpak --user override --filesystem=xdg-desktop com.valvesoftware.Steam
 
+# always allow gamepad mouse input
+flatpak permission-set kde-authorized remote-desktop com.valvesoftware.Steam yes

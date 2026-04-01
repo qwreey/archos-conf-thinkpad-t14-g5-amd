@@ -1,0 +1,20 @@
+{
+    "KPackageStructure": "KWin/Effect",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "me@qwreey.moe",
+                "Name": "qwreey"
+            }
+        ],
+        "Category": "Appearance",
+        "Description": "Modify window animations",
+        "EnabledByDefault": false,
+        "Icon": "preferences-system-windows-effect-fadingpopups",
+        "Id": "moe.qwreey.animate",
+        "License": "LGPLv2+",
+        "Name": "Popup Animate"
+    },
+    "X-KDE-Ordering": 60,
+    "X-Plasma-API": "javascript"
+}
