@@ -29,3 +29,6 @@ sudo sed "s|#* *en_US.UTF-8 UTF-8|en_US.UTF-8 UTF-8|g" -i /etc/locale.gen
 sudo locale-gen
 sudo localectl set-locale LANG="en_US.UTF-8" LC_CTYPE="C.UTF-8"
 
+# Enable ssd trim timer
+sudo systemctl enable fstrim.timer
+
