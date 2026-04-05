@@ -154,6 +154,7 @@ arch = { packages = [
     "sudo", "systemctl", "enable", "--now", "tailscaled"
   ] } },
   "bind", # DNS utility, such as dig
+  "dog", # DNS lookup with color
 
   # Apps
   "scrcpy",
@@ -213,6 +214,7 @@ arch = { packages = [
   "docker",
   "docker-compose",
   "docker-buildx",
+  "distrobox",
 
   # Virtualization
   # "virt-manager",
@@ -268,6 +270,7 @@ packages = [
   { name = "system:org.kde.krita", options = { remote = "flathub" } },
   { name = "system:org.kde.kdenlive", options = { remote = "flathub" } },
 
+  { name = "system:io.github.DenysMb.Kontainer", options = { remote = "flathub" } },
   { name = "system:ca.desrt.dconf-editor", options = { remote = "flathub" } },
   { name = "system:com.usebottles.bottles", options = { remote = "flathub" } }, # Wine app manager
   { name = "system:io.github.pwr_solaar.solaar", options = { remote = "flathub" } }, # Logitech device manager
