@@ -5,7 +5,7 @@ const GEOMETRY_ANIMATE_IGNORE_LIST = [
 	" ",
 	"plasmashell org.kde.plasmashell"
 ]
-const DEBUG_ENABLE = true
+const DEBUG_ENABLE = false
 function debug(msg) {
 	if (DEBUG_ENABLE) print("moe.qwreey.animate: " + msg)
 }
@@ -279,18 +279,21 @@ class QPopupAnimation {
 	}
 	animateResizeCancel(window) {
 		if (window.qCrossFadeAnimation) {
-			cancel(window.qCrossFadeAnimation)
+			const animation = window.qCrossFadeAnimation
 			delete window.qCrossFadeAnimation
+			cancel(animation)
 		}
 		if (window.qAnimateResize) {
-			cancel(window.qAnimateResize)
+			const animation = window.qAnimateResize
 			delete window.qAnimateResize
+			cancel(animation)
 		}
 	}
 	crossFadePrepare(window) {
 		if (window.qAnimateResize) {
-			cancel(window.qAnimateResize)
-			delete window.qGeomhhetryChange
+			const animation = window.qAnimateResize
+			delete window.qAnimateResize
+			cancel(animation)
 		}
 		if (!window.qCrossFadeAnimation
 			|| !retarget(window.qCrossFadeAnimation, 1.0, 1000)) {
@@ -400,13 +403,15 @@ class QPopupAnimation {
 		if (role == Effect.WindowAddedGrabRole
 			&& window.qOpenAnimation
 			&& effect.isGrabbed(window, role)) {
-			cancel(window.qOpenAnimation)
+			const animation = window.qOpenAnimation
 			delete window.qOpenAnimation
+			cancel(animation)
 		} else if (role == Effect.WindowClosedGrabRole
 			&& window.qCloseAnimation
 			&& effect.isGrabbed(window, role)) {
-			cancel(window.qCloseAnimation)
+			const animation = window.qCloseAnimation
 			delete window.qCloseAnimation
+			cancel(animation)
 		}
 	}
 	windowAdded(window) {
