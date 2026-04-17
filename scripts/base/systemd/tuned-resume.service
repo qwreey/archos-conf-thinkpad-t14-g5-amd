@@ -1,0 +1,10 @@
+[Unit]
+Description=Re-execute tuned profile script when resumed from suspend
+After=suspend.target suspend-then-hibernate.target hibernate.target hybrid-sleep.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/tuned-profile-script-execute.sh
+
+[Install]
+WantedBy=suspend.target suspend-then-hibernate.target hibernate.target hybrid-sleep.target
