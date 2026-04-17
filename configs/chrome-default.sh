@@ -57,20 +57,3 @@ CHROME_FLATPAK_IDS=(
 # for faster PWA launching and keep all flags working in PWA
 # make empty to disable autostart
 CHROME_AUTOSTART="google-chrome-stable --no-startup-window"
-
-# Firewalld configuration
-# To apply changes, run scripts/firewalld_install.sh
-FIREWALLD_SERVICE_LIST=(
-	dhcpv6-client kdeconnect mdns ssh
-	steam-streaming steam-lan-transfer minecraft
-	rtsp rdp vnc
-)
-FIREWALLD_TRUSTED_INTERFACE_LIST=(
-	tailscale0 # Trust all tailscale devices
-)
-
-obs-plugin-install() {
-	flatpak override --user --filesystem=xdg-run/pipewire-0 com.obsproject.Studio
-	github-plugin-install linux-pipewire-audio dimtpap/obs-pipewire-audio-capture "linux-pipewire-audio-[^-]*-flatpak-[^.]*.tar.gz"
-	CUSTOM_INSTALL_EVAL='mkdir -p "$pluginPath/bin/64bit/"; cp "$downloadedPath" "$pluginPath/bin/64bit/obs-wayland-hotkeys.so"' github-plugin-install obs-wayland-hotkeys codycwiseman/wayland-hotkeys-plus "obs-wayland-hotkeys.so"
-}

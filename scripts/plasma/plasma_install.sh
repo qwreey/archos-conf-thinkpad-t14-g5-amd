@@ -1,8 +1,8 @@
-#!/bin/bash
-
-echo "Script: Run plasma after_install"
-
+#!/usr/bin/bash
+echo "Script: Run $(basename "$(readlink -f "$0")")"
 SPATH="$(dirname "$(readlink -f "$0")")"
+source "$SPATH/../../config-loader.sh"
+require-nonroot
 
 source $SPATH/plasma-lib.sh
 

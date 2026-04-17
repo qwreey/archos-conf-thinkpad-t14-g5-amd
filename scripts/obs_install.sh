@@ -1,9 +1,8 @@
 #!/usr/bin/bash
-
-echo "Script: Run obs after_install"
+echo "Script: Run $(basename "$(readlink -f "$0")")"
 SPATH="$(dirname "$(readlink -f "$0")")"
-source "$SPATH/../config-default.sh"
-[ -e "$SPATH/../config-user.sh" ] && source "$SPATH/../config-user.sh"
+source "$SPATH/../config-loader.sh"
+require-nonroot
 
 PLUGINS_PATH=$HOME/.var/app/com.obsproject.Studio/config/obs-studio/plugins
 

@@ -51,7 +51,9 @@ arch = { packages = [
   { name = "networkmanager", hooks = { after_install = [
     "sh", "-c", "$HOME/.config/metapac/scripts/networkmanager_install.sh"
   ] } },
-  "wireless-regdb",
+  { name = "wireless-regdb", hooks = { after_install = [
+    "sh", "-c", "$HOME/.config/metapac/scripts/wirelessregdb_install.sh"
+  ] } },
   { name = "firewalld", hooks = { after_install = [
     "sh", "-c", "$HOME/.config/metapac/scripts/firewalld_install.sh"
   ] } },

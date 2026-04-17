@@ -1,0 +1,6 @@
+[Unit]
+Description="Run ryzenadj-powersave.service after 3sec waitting"
+
+[Timer]
+OnActiveSec=3
+Unit=ryzenadj-powersave.service

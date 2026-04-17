@@ -1,0 +1,5 @@
+[Unit]
+Description="Change amd powermode to performance"
+
+[Service]
+ExecStart=/usr/bin/ryzenadj --max-performance

@@ -1,9 +1,8 @@
 #!/usr/bin/bash
-
-echo "Script: Run chrome after_install"
+echo "Script: Run $(basename "$(readlink -f "$0")")"
 SPATH="$(dirname "$(readlink -f "$0")")"
-source "$SPATH/../config-default.sh"
-[ -e "$SPATH/../config-user.sh" ] && source "$SPATH/../config-user.sh"
+source "$SPATH/../config-loader.sh"
+require-nonroot
 
 extract_optns() {
 	for x in "${CHROME_FLAG_LIST[@]}"; do
@@ -44,20 +43,26 @@ extract_disable_feats() {
 }
 
 write_configs() {
+	echo "Update chrome flags"
 	CONFIG_CONTENT=$(cat <<EOF
 $(extract_optns)
 $(extract_disable_feats)
 $(extract_enable_feats)
 EOF
 	)
+	echo "Compiling options" | indent
+	echo "$CONFIG_CONTENT" | indent-2
 	for path in "${CHROME_FLAG_LIST_PATH[@]}"; do
+		echo "Applying to $path" | indent
 		mkdir -p "$(dirname "$path")"
-		tee "$path" <<< "$CONFIG_CONTENT"
+		tee "$path" <<< "$CONFIG_CONTENT" > /dev/null
 	done
 }
 
 update_flatpak_perm() {
+	echo "Updating flatpak overrides"
 	for x in "${CHROME_FLATPAK_IDS[@]}"; do
+		echo "Update for '$x'" | indent
 		flatpak --user override --filesystem=xdg-data/icons "$x"
 		flatpak --user override --filesystem=xdg-data/applications "$x"
 		flatpak --user override --filesystem=xdg-desktop "$x"
@@ -70,7 +75,8 @@ update_autostart() {
 		[ -e ~/.config/autostart/chrome-autostart.desktop ] && rm ~/.config/autostart/chrome-autostart.desktop
 		return
 	fi
-	cat <<EOF | tee ~/.config/autostart/chrome-autostart.desktop
+	echo "Adding autostart target 'chrome-autostart.desktop'"
+	cat <<EOF | tee ~/.config/autostart/chrome-autostart.desktop | indent
 [Desktop Entry]
 Comment=Start chrome background workers without main window
 Exec=$CHROME_AUTOSTART

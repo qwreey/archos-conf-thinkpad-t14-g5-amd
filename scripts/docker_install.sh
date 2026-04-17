@@ -1,6 +1,7 @@
 #!/usr/bin/bash
+echo "Script: Run $(basename "$(readlink -f "$0")")"
+SPATH="$(dirname "$(readlink -f "$0")")"
+source "$SPATH/../config-loader.sh"
 
-echo "Script: Run docker after_install"
-
-sudo systemctl enable --now docker
-
+echo "Enabling docker"
+sudo systemctl enable --now docker |& indent

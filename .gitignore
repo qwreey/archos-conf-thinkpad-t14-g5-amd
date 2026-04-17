@@ -1,3 +1,4 @@
 .directory
 config-user.sh
 
+configs/*-user.sh

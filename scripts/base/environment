@@ -3,6 +3,3 @@
 #
 # Syntax: simple "KEY=VAL" pairs on separate lines
 #
-XMODIFIERS=@im=fcitx5
-EDITOR=vim
-PAGER=less

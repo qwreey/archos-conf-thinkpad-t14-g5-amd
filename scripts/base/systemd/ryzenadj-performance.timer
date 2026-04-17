@@ -1,0 +1,6 @@
+[Unit]
+Description="Run ryzenadj-performance.service after 3sec waitting"
+
+[Timer]
+OnActiveSec=3
+Unit=ryzenadj-performance.service

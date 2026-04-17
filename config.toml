@@ -42,14 +42,6 @@ server = ["relative_group"]
 # Default: "pacman"
 package_manager = "paru"
 
-[brew]
-# If this is `true` then brew packages default to using the `--quarantine`
-# option.
-# If this is `false` then brew packages default to using the `--no-quarantine`
-# option.
-# Default: true
-quarantine = true
-
 [cargo]
 # Whether to default to installing cargo packages with the `--locked` option.
 # Default: false
@@ -77,4 +69,3 @@ variant = "code"
 # If this is `true` then the system is updated with the subcommand `dist-upgrade` (`dup`).
 # Default: false
 distribution_upgrade = false
-
