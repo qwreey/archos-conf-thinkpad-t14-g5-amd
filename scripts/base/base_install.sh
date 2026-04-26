@@ -41,32 +41,8 @@ sudo cp $SPATH/modules-load/* /etc/modules-load.d/
 
 # Apply /etc/systemd/system
 echo "Applying systemd services..."
-execute_hook_for() {
-	filename=$(basename "$1")
-	filename="${filename%.sh}"
-	filename="${filename%.service}"
-	filename="${filename%.timer}"
-	filename="${filename}.hook.sh"
-
-	[ ! -e "$SPATH/systemd/$filename" ] && return
-	echo "Execute hook $filename" | indent
-	sudo "$SPATH/systemd/$filename" | indent-2
-}
-for i in $SPATH/systemd/*.service $SPATH/systemd/*.timer; do
-	[ ! -e "$i" ] && continue
-	echo "Install $(basename "$i")" | indent
-	sudo cp "$i" /etc/systemd/system/
-	execute_hook_for "$i"
-done
-for i in $SPATH/systemd/*.service.sh $SPATH/systemd/*.timer.sh; do
-	filename=$(basename "$i")
-
-	echo "Execute $filename" | indent
-	output="$($SPATH/systemd/$filename)"
-	if [ "$?" = 0 ] && [ ! -z "$output" ]; then
-		sudo tee "/etc/systemd/system/${filename%.sh}" <<< "$output" | indent-2
-		execute_hook_for "$i"
-	fi
+for i in $SPATH/systemd/*.service $SPATH/systemd/*.timer $SPATH/systemd/*.service.sh $SPATH/systemd/*.timer.sh; do
+	apply-systemd-unit $i | indent
 done
 
 # Setup locale

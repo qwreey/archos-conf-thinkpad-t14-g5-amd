@@ -1,6 +1,8 @@
 #!/bin/sh
-echo low | tee /sys/class/drm/card[0-9]/device/power_dpm_force_performance_level
-echo powersupersave | tee /sys/module/pcie_aspm/parameters/policy
+tee /sys/class/drm/card[0-9]/device/power_dpm_force_performance_level <<< "low"
+tee /sys/module/pcie_aspm/parameters/policy <<< "powersave"
 
-systemctl stop ryzenadj-powersave.timer ryzenadj-performance.timer
-systemctl start ryzenadj-powersave.timer
+if [ -e "/etc/systemd/systemd/ryzenadj-plugged-powersave.timer" ]; then
+	systemctl stop ryzenadj-battery-powersave.timer ryzenadj-battery-balanced.timer ryzenadj-battery-performance.timer ryzenadj-plugged-powersave.timer ryzenadj-plugged-balanced.timer ryzenadj-plugged-performance.timer
+	systemctl start ryzenadj-plugged-powersave.timer
+fi
